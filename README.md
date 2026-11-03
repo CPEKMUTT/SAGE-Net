@@ -43,11 +43,11 @@ SAGE-Net/
 
 ## 1. Set up the environment
 
-Requires Python 3.10+ and a CUDA-capable GPU for practical full-scale experiments. CPU execution is supported for very small smoke tests but is slow.
+Requires Python 3.10+ and a CUDA-capable GPU for full-scale experiments.
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
+python -m venv sagenet
+conda activate sagenet
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
