@@ -41,7 +41,7 @@ SAGE-Net/
 └── requirements.txt
 ```
 
-## 1. Set up the environment
+## Set up the environment
 
 Requires Python 3.10+ and a CUDA-capable GPU for full-scale experiments.
 
@@ -58,29 +58,29 @@ Download a pretrained checkpoint from the **[official RemoteCLIP project](https:
 checkpoints/RemoteCLIP-ViT-B-32.pt
 ```
 
-This implementation supports `ViT-B-32` and `ViT-L-14`. Use the exact architecture that corresponds to the checkpoint. **No pretrained weights or remote sensing datasets are redistributed here.**
+This implementation supports `ViT-B-32` and `ViT-L-14`. Use the exact architecture that corresponds to the checkpoint.
 
-## 2. Prepare datasets and fixed splits
+## Prepare datasets
 
-Arrange each dataset in class folders. The script also accepts a dataset containing an `images/` subdirectory:
+Arrange each dataset in class folders.
 
 ```text
 data/NWPU-RESISC45/
-  airport/*.jpg
-  harbor/*.jpg
-  forest/*.jpg
+  airport.jpg
+  harbor.jpg
+  forest.jpg
   ...
 data/AID/
-  Airport/*.jpg
-  Port/*.jpg
+  Airport.jpg
+  Port.jpg
   ...
 data/UCM/
-  agricultural/*.tif
-  harbor/*.tif
+  agricultural.tif
+  harbor.tif
   ...
 ```
 
-Create deterministic stratified split manifests:
+Split:
 
 ```bash
 python prepare_data.py --dataset-root data/NWPU-RESISC45 --dataset nwpu --output manifests/nwpu42.json --seed 42
@@ -88,69 +88,44 @@ python prepare_data.py --dataset-root data/AID --dataset aid --output manifests/
 python prepare_data.py --dataset-root data/UCM --dataset ucm --output manifests/ucm42.json --seed 42
 ```
 
-**Important:** The default `60% / 20% / 20%` image-level splits are a convenience for new experiments, **not** the official manuscript splits. To claim reproduction, replace these manifests with the exact train/test protocol, class selection, seeds, and sample identities used for the reported results. See [reproducibility notes](docs/REPRODUCIBILITY.md).
+## Run few-shot adaptation
 
-The optional `--dataset` argument verifies the expected 45 NWPU, 30 AID, or
-21 UC-Merced categories after name normalization. Omit it for an intentional
-subset of classes.
-
-## 3. Run few-shot adaptation
-
-Each independent episode samples **five classes**, `K` training-support examples per class, and **15 held-out test queries per class**. A **fresh adaptation model** is trained from scratch for each task, preventing cross-episode query contamination. The paper specifies 50 adaptation epochs and AdamW with learning rate `1e-4`.
+Each independent episode samples **five classes**, `K` training-support examples per class, and **15 held-out test queries per class**.
 
 ```bash
 # NWPU-RESISC45, 5-way 1-shot
+
 python run_experiment.py \
   --mode fewshot --manifest manifests/nwpu42.json \
   --checkpoint checkpoints/RemoteCLIP-ViT-B-32.pt \
   --architecture ViT-B-32 --shots 1 --ways 5 --queries 15 \
-  --episodes 100 --seed 42 --output runs/nwpu_1shot
+  --episodes --seed 42 --output runs/nwpu_1shot
 
 # NWPU-RESISC45, 5-way 5-shot
+
 python run_experiment.py \
   --mode fewshot --manifest manifests/nwpu42.json \
   --checkpoint checkpoints/RemoteCLIP-ViT-B-32.pt \
   --architecture ViT-B-32 --shots 5 --ways 5 --queries 15 \
-  --episodes 100 --seed 42 --output runs/nwpu_5shot
+  --episodes --seed 42 --output runs/nwpu_5shot
 
 # Repeat with manifests/aid42.json for AID
 ```
 
-The output `results.json` contains every episode's accuracy, classes, sample counts, mean, standard deviation, and an approximate 95% confidence-interval half-width. Increase `--episodes` according to the published evaluation protocol; 100 is an illustrative setting, not a manuscript-verified count.
+## Train and evaluate cross-dataset transfer
 
-## 4. Evaluate the backbone contribution
-
-These two baselines are **not the same experiment**:
-
-```bash
-# True zero-shot: independent 5-way episodes, no support-label training
-python run_experiment.py \
-  --mode zero_shot --manifest manifests/nwpu42.json \
-  --checkpoint checkpoints/RemoteCLIP-ViT-B-32.pt \
-  --shots 1 --ways 5 --queries 15 --episodes 100 \
-  --output runs/nwpu_zeroshot
-
-# K-shot linear probe: frozen RemoteCLIP global image feature + trainable classifier
-python run_experiment.py \
-  --mode probe --manifest manifests/nwpu42.json \
-  --checkpoint checkpoints/RemoteCLIP-ViT-B-32.pt \
-  --shots 1 --episodes 100 --output runs/nwpu_probe_1shot
-```
-
-For the advisor-requested comparison with AGPLwS, run an independent AGPLwS implementation using the **identical checkpoint, preprocessing, split/episodes, and evaluation metric**. AGPLwS is not silently relabeled or embedded inside this SAGE-Net implementation.
-
-## 5. Train and evaluate cross-dataset transfer
-
-This experiment trains only on source **NWPU-RESISC45** classes that have explicit semantic matches to the target dataset. The mappings are editable in `configs/transfer_mappings.json`; check them against the manuscript before publication.
+This experiment trains only on source **NWPU-RESISC45** classes that have explicit semantic matches to the target dataset. The mappings are editable in `configs/transfer_mappings.json`
 
 ```bash
 # Source-only training for NWPU -> AID
+
 python run_experiment.py \
   --mode transfer_train --manifest manifests/nwpu42.json \
   --target-dataset aid --checkpoint checkpoints/RemoteCLIP-ViT-B-32.pt \
   --output runs/nwpu_to_aid_train
 
 # Evaluate on AID, with no target-domain training
+
 python run_experiment.py \
   --mode transfer_eval --manifest manifests/nwpu42.json \
   --target-manifest manifests/aid42.json --target-dataset aid \
@@ -159,59 +134,17 @@ python run_experiment.py \
   --output runs/nwpu_to_aid_eval
 ```
 
-Replace `aid` with `ucm`, and use `manifests/ucm42.json`, for the UC-Merced experiment. The evaluation report states how many target examples were included and excluded by the class mapping.
+Replace `aid` with `ucm`, and use `manifests/ucm42.json`, for the UC-Merced experiment.
 
-## 6. Ablations
 
-The command-line `--ablation` switch runs controlled alternatives using the
-**same dataset manifest and episode-sampling seed**. Available variants are:
-
-| Manuscript experiment | Configuration change |
-| --- | --- |
-| Full model | Default configuration |
-| No structured prompt composition | `--ablation identity` |
-| Identity and object prompts only | `--ablation identity_object` |
-| Identity and layout prompts only | `--ablation identity_geometry` |
-| Three prompts with equal weights | `--ablation equal_prompts` |
-| No geometry descriptors | `--ablation no_geometry` |
-| Centroid only | `--ablation centroid` |
-| Centroid + area | `--ablation centroid_area` |
-| Centroid + area + aspect ratio | `--ablation centroid_area_aspect` |
-| No geometry bias in SGRM | `--ablation no_geometry_bias` |
-| No semantic alignment loss | `--ablation no_alignment` |
-
-For example:
-
-```bash
-python run_experiment.py \
-  --mode fewshot --manifest manifests/nwpu42.json \
-  --checkpoint checkpoints/RemoteCLIP-ViT-B-32.pt \
-  --shots 5 --episodes 100 --seed 42 \
-  --ablation centroid_area \
-  --output runs/nwpu_centroid_area
-```
-
-Run all 11 presets with `bash scripts/ablation_nwpu_5shot.sh` (the arguments
-are the manifest path, checkpoint path, and number of episodes). For **Table 11**,
-set `scene_tokens` to `2`, `4`, `6`, `8`, or `10` in separate configuration JSON
-files; `--config` accepts any such file. For the plain global-RemoteCLIP
-baseline, use `--mode probe`. Use `--mode zero_shot` for the genuinely untrained
-RemoteCLIP comparison. These experiments are not interchangeable: identity-only
-SAGE-Net still trains GSTC and SGRM, whereas a global linear probe does not.
-
-The exact formulas and implementation choices are documented in [METHOD_ALIGNMENT.md](docs/METHOD_ALIGNMENT.md).
-
-## 7. Tests
+## Tests
 
 ```bash
 python -m unittest discover -s tests -v
 python -m compileall -q sage_net run_experiment.py prepare_data.py
 ```
 
-The unit tests use synthetic features and small temporary images. They verify tensor dimensions, assignment normalization, class-specific weights, differentiability, support/query separation, and component switches. **Full numerical reproduction requires the real datasets, an official checkpoint, and a suitable GPU.**
 
-## Citation and acknowledgment
+## Acknowledgment
 
-Manuscript: **N. Sultan, M. Hayat, and S. Prom-on, "SAGE-Net: Semantic and Geometry-Aware Foundation Adaptation for Few-Shot Remote Sensing Scene Classification."** Formal citation details will be added upon publication.
-
-We thank the authors of **[APPLeNet](https://github.com/mainaksingha01/APPLeNet)** — Mainak Singha, Ankit Jha, Bhupendra Solanki, Shirsha Bose, and Biplab Banerjee — for generously releasing their code. Its availability served as a valuable reference for few-shot remote sensing experimentation and helped accelerate this research. We also acknowledge the **[RemoteCLIP](https://github.com/ChenDelong1999/RemoteCLIP)** team for releasing pretrained vision-language models. The original APPLeNet MIT copyright notice is preserved in `third_party_licenses/APPLeNet-LICENSE.txt`.
+We thank the authors of **[APPLeNet](https://github.com/mainaksingha01/APPLeNet)** for generously releasing their code. Its availability served as a valuable reference for few-shot remote sensing experimentation and helped accelerate this research. We also acknowledge the **[RemoteCLIP](https://github.com/ChenDelong1999/RemoteCLIP)** team for releasing pretrained vision-language models.
