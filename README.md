@@ -5,10 +5,9 @@
 ![Task](https://img.shields.io/badge/Task-Few--shot%20Remote%20Sensing-3766A2)
 ![Backbone](https://img.shields.io/badge/Backbone-Frozen%20RemoteCLIP-7949AD)
 ![Framework](https://img.shields.io/badge/Framework-PyTorch-EE4C2C)
-![Reproducibility](https://img.shields.io/badge/Status-Research%20Implementation-yellow)
 
 > [!IMPORTANT]
-> **Release policy:** The official code is planned for public release following final manuscript acceptance. This package is a research implementation for development and validation. It has not yet been used to independently reproduce the numerical results in the manuscript.
+> **Release policy:** The source code of SAGE-Net will be made publicly available in this repository **after final acceptance of the manuscript**. The training scripts, evaluation scripts, configuration files, and instructions are not yet released. Please check back for updates.
 
 ## What is SAGE-Net?
 
@@ -19,22 +18,7 @@ SAGE-Net adapts frozen RemoteCLIP representations to remote sensing scene classi
 3. **Semantic-Geometry Reasoning Module (SGRM)**: geometry-biased self-attention refines scene tokens, then class-specific semantic matching aggregates evidence for the candidate categories.
 4. **Classification and optimization**: visual classifier logits are added to semantic matching logits, with cross-entropy plus semantic alignment loss.
 
-The RemoteCLIP visual and text encoders **remain frozen** during adaptation. There is **no APPLeNet prompt-injection module** in SAGE-Net.
-
-```mermaid
-flowchart TB
-    A["Input aerial image"] --> B["Frozen RemoteCLIP visual encoder"]
-    B --> C["Visual patch tokens"]
-    C --> D["GSTC: soft grouping + geometry"]
-    E["Class identity, objects, and layout prompts"] --> F["Frozen RemoteCLIP text encoder"]
-    F --> G["SSPB: learnable prompt-fusion gate"]
-    G --> H["Semantic class prototypes"]
-    D --> I["SGRM: geometry-biased relations"]
-    H --> I
-    I --> J["Class-guided semantic aggregation"]
-    J --> K["Visual + semantic logits"]
-    K --> L["Scene prediction"]
-```
+The RemoteCLIP visual and text encoders **remain frozen** during adaptation. 
 
 ## Project structure
 
