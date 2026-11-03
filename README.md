@@ -7,16 +7,15 @@
 ![Framework](https://img.shields.io/badge/Framework-PyTorch-EE4C2C)
 
 > [!IMPORTANT]
-> **Release policy:** The source code of SAGE-Net will be made publicly available in this repository **after final acceptance of the manuscript**. The training scripts, evaluation scripts, configuration files, and instructions are not yet released. Please check back for updates.
+> **Release policy:** The source code of SAGE-Net will be made publicly available in this repository after final acceptance of the manuscript. The training scripts, evaluation scripts, configuration files, and instructions are not yet released. Please check back for updates.
 
 ## What is SAGE-Net?
 
-SAGE-Net adapts frozen RemoteCLIP representations to remote sensing scene classification through lightweight semantic and geometry-aware modules:
+SAGE-Net adapts frozen RemoteCLIP representations to remote sensing scene classification through semantic and geometry-aware modules:
 
 1. **Structured Semantic Prompt Bank (SSPB)**: class identity, object composition, and geometry/layout prompts are encoded by the frozen RemoteCLIP text tower and combined using a learnable class-specific gate.
 2. **Geometry-Aware Scene Token Constructor (GSTC)**: visual ViT patches are softly assigned to six scene groups; each group receives a 6-value geometry vector representing centroid, area, aspect ratio, and orientation.
 3. **Semantic-Geometry Reasoning Module (SGRM)**: geometry-biased self-attention refines scene tokens, then class-specific semantic matching aggregates evidence for the candidate categories.
-4. **Classification and optimization**: visual classifier logits are added to semantic matching logits, with cross-entropy plus semantic alignment loss.
 
 The RemoteCLIP visual and text encoders **remain frozen** during adaptation. 
 
@@ -35,11 +34,8 @@ SAGE-Net/
 │   ├── dataset_classes.json
 │   ├── transfer_mappings.json
 │   └── prompt_overrides.example.json
-├── docs/
-│   ├── METHOD_ALIGNMENT.md
-│   └── REPRODUCIBILITY.md
-├── scripts/             # Example command wrappers
-├── tests/               # Synthetic unit and protocol tests
+├── scripts/          
+├── tests/              
 ├── prepare_data.py
 ├── run_experiment.py
 └── requirements.txt
