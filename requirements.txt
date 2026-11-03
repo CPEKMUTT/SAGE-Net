@@ -1,0 +1,8 @@
+torch>=2.2,<3
+torchvision>=0.17,<1
+open_clip_torch>=2.24,<4
+pillow>=10,<13
+numpy>=1.24,<3
+ftfy>=6
+regex>=2023
+tqdm>=4.66
