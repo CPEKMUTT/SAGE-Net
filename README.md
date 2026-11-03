@@ -43,12 +43,12 @@ The complete evaluation protocol, configuration files, and reproducibility instr
 
 We intend to add the following materials after final acceptance, subject to dataset and pretrained-checkpoint redistribution terms:
 
-- ☑ Model definitions for SSPB, GSTC, SGRM, and the classification head
-- [ ] Training and evaluation scripts
-- [ ] Dataset preparation and few-shot sampling instructions
-- [ ] Experiment configurations and reproducibility settings
-- [ ] Cross-dataset transfer evaluation instructions
-- [ ] Pretrained-model setup and checkpoint guidance
+☑ Model definitions for SSPB, GSTC, SGRM, and the classification head
+[ ] Training and evaluation scripts
+[ ] Dataset preparation and few-shot sampling instructions
+[ ] Experiment configurations and reproducibility settings
+[ ] Cross-dataset transfer evaluation instructions
+[ ] Pretrained-model setup and checkpoint guidance
 
 
 ## Acknowledgments
