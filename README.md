@@ -52,7 +52,7 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-Download a pretrained checkpoint from the **[official RemoteCLIP project](https://github.com/ChenDelong1999/RemoteCLIP)** or its official [Hugging Face repository](https://huggingface.co/chendelong/RemoteCLIP). Place it at a local path such as:
+Download a pretrained checkpoint from the **[official RemoteCLIP project](https://github.com/ChenDelong1999/RemoteCLIP)** or its official [Hugging Face repository](https://huggingface.co/chendelong/RemoteCLIP/tree/main). Place it at a local path such as:
 
 ```text
 checkpoints/RemoteCLIP-ViT-B-32.pt
