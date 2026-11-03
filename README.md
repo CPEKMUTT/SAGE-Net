@@ -1,12 +1,10 @@
-\<div align="center">
-
 # SAGE-Net
 
 ### Semantic and Geometry-Aware Foundation Adaptation for Few-Shot Remote Sensing Scene Classification
 
 **Naveed Sultan · Mansoor Hayat · Santitham Prom-on**
 
-\</div>
+
 
 > [!IMPORTANT]\
 > **Code availability:** The source code of SAGE-Net will be made publicly available in this repository **after final acceptance of the manuscript**. The training scripts, evaluation scripts, configuration files, and instructions are not yet released. Please check back for updates.
@@ -17,22 +15,6 @@ Remote sensing scene classification must distinguish aerial scenes with substant
 
 **SAGE-Net** is a lightweight vision-language adaptation framework for **few-shot remote sensing scene classification**. It uses **frozen RemoteCLIP visual and text encoders** and learns task-specific modules that connect structured semantic descriptions with spatially grounded scene evidence. The goal is to improve classification under limited supervision while preserving the general-purpose representations of the pretrained foundation model.
 
-## Method at a Glance
-
-```mermaid
-flowchart TB
-    A["Remote sensing image"] --> B["Frozen RemoteCLIP visual encoder"]
-    B --> C["Patch-level visual tokens"]
-    C --> D["Geometry-Aware Scene Token Constructor (GSTC)"]
-    E["Class-specific semantic descriptions"] --> F["Structured Semantic Prompt Bank (SSPB)"]
-    F --> G["Frozen RemoteCLIP text encoder"]
-    G --> H["Learnable prompt-fusion gate"]
-    H --> I["Class semantic prototypes"]
-    D --> J["Semantic-Geometry Reasoning Module (SGRM)"]
-    I --> J
-    J --> K["Visual classification + semantic prototype matching"]
-    K --> L["Scene prediction"]
-```
 
 SAGE-Net comprises three principal adaptation components:
 
