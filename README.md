@@ -36,9 +36,6 @@ The manuscript considers the following datasets and evaluation settings:
 | **AID**                | Few-shot adaptation and cross-dataset transfer target             |
 | **UC-Merced Land Use** | Cross-dataset transfer target                                     |
 
-- **Few-shot recognition:** 5-way 1-shot and 5-way 5-shot evaluation.
-- **Cross-dataset transfer:** Transfer from NWPU-RESISC45 to semantically matched classes in AID and UC-Merced Land Use.
-- **Frozen encoders:** RemoteCLIP visual and text branches; only lightweight adaptation modules are optimized.
 
 The complete evaluation protocol, configuration files, and reproducibility instructions will be provided with the code release.
 
@@ -53,8 +50,6 @@ We intend to add the following materials after final acceptance, subject to data
 - [ ] Cross-dataset transfer evaluation instructions
 - [ ] Pretrained-model setup and checkpoint guidance
 
-**Please note:** This repository currently serves as the project information page. It should not yet be interpreted as a runnable implementation.
-
 ## Citation
 
 If you find the research useful, please cite the SAGE-Net manuscript once its bibliographic information becomes available. The complete citation and BibTeX entry will be added after publication.
@@ -63,20 +58,6 @@ If you find the research useful, please cite the SAGE-Net manuscript once its bi
 
 ## Acknowledgments
 
-We sincerely thank **Mainak Singha, Ankit Jha, Bhupendra Solanki, Shirsha Bose, and Biplab Banerjee**, the authors of **[APPLeNet](https://github.com/mainaksingha01/APPLeNet)**, for generously making their source code publicly available. Their open research resources have provided a valuable reference and helped accelerate research and experimentation in few-shot remote sensing scene understanding. Open-source contributions of this kind support reproducibility, facilitate meaningful comparisons, and encourage continued progress across the remote sensing research community.
+We sincerely thank the authors of **[APPLeNet](https://github.com/mainaksingha01/APPLeNet)**, for generously making their source code publicly available. Their open research resources have provided a valuable reference and helped accelerate research and experimentation in few-shot remote sensing scene understanding.
 
 We also acknowledge the authors and maintainers of **[RemoteCLIP](https://github.com/ChenDelong1999/RemoteCLIP)** for releasing pretrained vision-language models for remote sensing research.
-
-These acknowledgments recognize the valuable resources shared by the research community; **SAGE-Net's SSPB, GSTC, and SGRM constitute the methodology described in our manuscript**.
-
-## License and Contact
-
-The license and any notices required for third-party code will be provided when the implementation is released. For research-related questions, please use the repository's GitHub Issues page once enabled, or contact the authors through their institutional channels.
-
----
-
-\<div align="center">
-
-**SAGE-Net · Department of Computer Engineering, King Mongkut's University of Technology Thonburi (KMUTT), Thailand**
-
-\</div>
