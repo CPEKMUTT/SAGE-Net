@@ -43,18 +43,13 @@ The complete evaluation protocol, configuration files, and reproducibility instr
 
 We intend to add the following materials after final acceptance, subject to dataset and pretrained-checkpoint redistribution terms:
 
-- [ ] Model definitions for SSPB, GSTC, SGRM, and the classification head
+- [✔] Model definitions for SSPB, GSTC, SGRM, and the classification head
 - [ ] Training and evaluation scripts
 - [ ] Dataset preparation and few-shot sampling instructions
 - [ ] Experiment configurations and reproducibility settings
 - [ ] Cross-dataset transfer evaluation instructions
 - [ ] Pretrained-model setup and checkpoint guidance
 
-## Citation
-
-If you find the research useful, please cite the SAGE-Net manuscript once its bibliographic information becomes available. The complete citation and BibTeX entry will be added after publication.
-
-**Manuscript title:** *SAGE-Net: Semantic and Geometry-Aware Foundation Adaptation for Few-Shot Remote Sensing Scene Classification*.
 
 ## Acknowledgments
 
