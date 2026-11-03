@@ -30,7 +30,7 @@ The final prediction combines discriminative visual evidence with semantic proto
 
 The manuscript considers the following datasets and evaluation settings:
 
-| Dataset                | Role in the study                                                 |
+| Dataset                | Purpose                                                 |
 | ---------------------- | ----------------------------------------------------------------- |
 | **NWPU-RESISC45**      | Few-shot adaptation and source dataset for cross-dataset transfer |
 | **AID**                | Few-shot adaptation and cross-dataset transfer target             |
@@ -43,12 +43,17 @@ The complete evaluation protocol, configuration files, and reproducibility instr
 
 We intend to add the following materials after final acceptance, subject to dataset and pretrained-checkpoint redistribution terms:
 
-- [✓] Model definitions for SSPB, GSTC, SGRM, and the classification head
-- [ ] Training and evaluation scripts
-- [ ] Dataset preparation and few-shot sampling instructions
-- [ ] Experiment configurations and reproducibility settings
-- [ ] Cross-dataset transfer evaluation instructions
-- [ ] Pretrained-model setup and checkpoint guidance
+
+| Status | Component | Description |
+|:---:|---|---|
+| ✅ | **Model Architecture** | SSPB, GSTC, SGRM, and classification head |
+| ⏳ | **Training & Evaluation** | Training pipelines and evaluation scripts |
+| ⏳ | **Dataset Preparation** | Data preprocessing and few-shot sampling protocols |
+| ⏳ | **Reproducibility** | Experiment configurations, hyperparameters, and settings |
+| ⏳ | **Cross-Dataset Transfer** | Transfer evaluation procedures and instructions |
+| ⏳ | **Pretrained Models** | RemoteCLIP setup and checkpoint-loading guidance |
+
+> **Release Status:** The complete implementation and documentation will be made publicly available following final manuscript acceptance.
 
 
 ## Acknowledgments
