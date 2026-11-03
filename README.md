@@ -2,7 +2,6 @@
 
 ### Semantic and Geometry-Aware Foundation Adaptation for Few-Shot Remote Sensing Scene Classification
 
-**Naveed Sultan · Mansoor Hayat · Santitham Prom-on**
 
 
 
