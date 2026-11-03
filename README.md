@@ -6,11 +6,6 @@
 
 **Naveed Sultan · Mansoor Hayat · Santitham Prom-on**
 
-\
-\
-\
-
-
 \</div>
 
 > [!IMPORTANT]\
