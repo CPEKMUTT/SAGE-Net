@@ -53,8 +53,6 @@ We intend to add the following materials after final acceptance, subject to data
 | ⏳ | **Cross-Dataset Transfer** | Transfer evaluation procedures and instructions |
 | ⏳ | **Pretrained Models** | RemoteCLIP setup and checkpoint-loading guidance |
 
-> **Release Status:** The complete implementation and documentation will be made publicly available following final manuscript acceptance.
-
 
 ## Acknowledgments
 
