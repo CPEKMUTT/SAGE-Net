@@ -1,1 +1,23 @@
+{
+  "num_tokens": 6,
+  "assign_dim": 128,
+  "gate_hidden": 256,
+  "geo_hidden": 128,
+  "rel_hidden": 64,
+  "temperature": 0.07,
+  "dropout": 0.1,
+  "prompt_set": "full",
+  "prompt_fusion": "gated",
+  "geometry": "full",
+  "inject_geometry": true,
+  "geometry_bias": true,
+  "lambda_align": 0.5,
+  "lr": 0.0001,
+  "weight_decay": 0.0005,
+  "epochs": 50,
+  "batch_size": 32,
+  "image_size": 224,
+  "num_workers": 4,
+  "amp": true
+}
 
