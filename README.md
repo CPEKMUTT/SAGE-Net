@@ -8,10 +8,11 @@
 
 SAGE-Net adapts frozen RemoteCLIP encoders to remote sensing scene classification with three  modules:
 
-1. **SSPB.** Each class is described by an identity prompt, an object-composition prompt and a geometry-layout prompt. The prompts are encoded once by the frozen RemoteCLIP text encoder and fused into a class prototype by a learnable, class-specific gate.
+1. **SSPB.** Each class is described by an identity prompt, an object-composition prompt, and a geometry-layout prompt. The frozen RemoteCLIP text encoder encodes the prompts once, and a learnable, class-specific gate fuses them into a class prototype.
 2. **GSTC.** ViT patch tokens are softly assigned to `S` scene groups. Each group gets an appearance token and a 6-value geometry descriptor (centroid `u, v`, area, aspect ratio, `sin θ`, `cos θ`) computed from the soft assignment; the descriptor is projected by an MLP and added to the token.
 3. **SGRM.** Self-attention over the scene tokens with a pairwise geometry bias, followed by class-guided evidence aggregation against the SSPB prototypes.
 
+> 📢 **Notice:** The paper is under review, and we will release the full code after final acceptance.
 
 ## Layout
 
@@ -19,17 +20,17 @@ SAGE-Net adapts frozen RemoteCLIP encoders to remote sensing scene classificatio
 SAGE-Net/
 ├── sage_net/
 │   ├── backbone.py      # frozen RemoteCLIP, projected ViT patch tokens
-│   ├── prompts.py       # identity / object / geometry prompts for NWPU, AID, UCM
+│   ├── prompts.py       # identity/object/geometry prompts
 │   ├── model.py         # SSPB, GSTC, SGRM, SAGENet, loss
-│   ├── data.py          # class-folder datasets, transforms, episode sampler
-│   └── engine.py        # config, training, evaluation, baselines, checkpoints
+│   ├── data.py          
+│   └── engine.py        
 ├── configs/
-│   ├── default.json                     # implementation settings
-│   ├── transfer_mappings.json           # NWPU -> AID / UCM class matching
+│   ├── default.json                     
+│   ├── transfer_mappings.json           
 │   └── prompt_overrides.example.json
 ├── scripts/
 │   ├── download_remoteclip.py
-│   ├── plot_results.py   # confusion matrix, UMAP
+│   ├── plot_results.py  
 │   └── gradcam.py
 ├── tests/test_model.py
 ├── run_experiment.py
@@ -59,7 +60,7 @@ data/AID/Airport/airport_1.jpg
 data/UCMerced_LandUse/Images/agricultural/agricultural00.tif
 ```
 
-Class folder names are normalized automatically (`DenseResidential`, `denseresidential` and `dense_residential` all become `dense_residential`). A single wrapper directory such as `Images/` is skipped.
+Class folder names are normalized automatically (`DenseResidential`, `denseresidential` and `dense_residential` all become `dense_residential`).
 
 ## Implementation settings
 
