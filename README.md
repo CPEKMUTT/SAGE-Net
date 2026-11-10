@@ -48,7 +48,7 @@ pip install -r requirements.txt
 python scripts/download_remoteclip.py --arch ViT-B-32
 ```
 
-The checkpoint can also be downloaded manually from the [RemoteCLIP Hugging Face page](https://huggingface.co/chendelong/RemoteCLIP). `ViT-B-32` (7×7 patch grid at 224 px).
+The checkpoint can also be downloaded manually from the [RemoteCLIP Hugging Face page](https://huggingface.co/chendelong/RemoteCLIP/tree/main). `ViT-B-32` (7×7 patch grid at 224 px).
 
 ## Data
 
